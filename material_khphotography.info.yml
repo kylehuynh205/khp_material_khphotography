@@ -1,0 +1,13 @@
+name: Kyle Huynh Photography
+type: theme
+description: 'This theme is used for Kyle Huynh Photography (photo.kylehuynh.com)'
+package: Kyle Huynh Photography
+core: 8.x
+libraries:
+  - material_khphotography/global-styling
+ 
+base theme: material_base
+
+regions:
+  content: Content
+  content: Content
