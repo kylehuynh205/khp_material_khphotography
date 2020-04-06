@@ -1,0 +1,15 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 5-Apr-2020, 10:37:01 PM
+    Author     : kyledeveloper
+*/
+
+.cus-khphotography #header {
+    background: linear-gradient(to bottom,rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 64px),url(/sites/photo/files/banner.jpg) center center !important;
+    background-size: cover;
+    background-repeat:   no-repeat;
+}
