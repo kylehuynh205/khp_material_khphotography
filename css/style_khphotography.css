@@ -8,8 +8,20 @@ and open the template in the editor.
     Author     : kyledeveloper
 */
 
-.cus-khphotography #header {
+/*.cus-khphotography #header {
     background: linear-gradient(to bottom,rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 64px),url(/sites/photo/files/banner.jpg) center center !important;
     background-size: cover;
     background-repeat:   no-repeat;
+}*/
+
+.slogan-btn-1 { 
+
+    position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.slogan-btn-2 { 
+
+    position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.slogan-btn-2 span { 
+    position: relative; z-index: 2;
 }
