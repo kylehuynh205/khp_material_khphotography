@@ -1,0 +1,39 @@
+<div id="navbar">
+
+    <div id="navbar" class="container">
+        <div class="navbar-item ">
+            <div class="navbar-logo">
+                {{ page.navbar_logo }}
+            </div>
+        </div>
+        <div class="navbar-item ">
+            <div class="navbar-title">
+                {{ page.navbar_branding}}
+            </div>
+        </div>
+        <div class="navbar-item navbar-menu pull-right">
+            {{ page.navbar_navigation}}
+        </div>
+
+    </div>
+</div>
+
+<div id="drawer-overlay"></div>
+<div id="drawer">
+    {{ page.drawer }}
+</div>
+
+<header id="header" role="banner">
+    <div id="header-content">
+        {{ page.header }}
+    </div>
+    <div id="header-bg">
+        {{ page.header_bg }}
+    </div>
+</header>
+
+{% if page.actions %}
+    <div id="actions">
+        {{ page.actions }}
+    </div>
+{% endif %}

@@ -9,5 +9,22 @@ libraries:
 base theme: material_base
 
 regions:
+  page_top: '1 - Page top'
+  navbar_logo: Navbar (Logo)
+  navbar_branding: Navbar (Branding- Site title)
+  navbar_navigation: Navbar (Main navigation)
+  drawer: Drawer
+  help: Help
+  highlighted: Highlighted
+  breadcrumb: Breadcrumb
+  sidebar_first: 'First sidebar'
+  sidebar_second: 'Second sidebar'
+  before_main: 'Before main content'
   content: Content
-  content: Content
+  content_secondary: 'Content secondary'
+  after_main: 'After main content'
+  footer: Footer
+  footer_content: 'Footer content'
+  page_bottom: 'Page bottom'
+  header_bg: 'Header background'
+  actions: 'Actions'
