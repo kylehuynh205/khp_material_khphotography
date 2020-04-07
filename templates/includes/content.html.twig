@@ -1,3 +1,8 @@
+{% if page.actions %}
+    <div id="actions">
+        {{ page.actions }}
+    </div>
+{% endif %}
 <div id="content">
     {% if page.before_main %}
         <div id="before-main">
