@@ -9,6 +9,8 @@
  * Implements hook_preprocess_HOOK() for html.html.twig.
  */
 function material_khphotography_preprocess_html(array &$variables) {
+    print_log(material_khphotography_preprocess_html);
+
     /* Add class to html tag */
     //$variables['html_attributes']->addClass('no-js');
     // Don't display the site name twice on the front page (and potentially others)
@@ -33,11 +35,15 @@ function material_khphotography_page_attachments_alter(array &$page) {
       $page['#attached']['html_head'][] = [$ie_edge, 'ie_edge']; */
 }
 
+function material_preprocess_taxonomy_vocabulary(array &$variables) {
+    print_log(material_preprocess_taxonomy_term);
+}
+
 /**
  * Implements hook_preprocess_page() for page.html.twig.
  */
 function material_khphotography_preprocess_page(array &$variables) {
-    
+    print_log(material_khphotography_preprocess_page);
 
     if (\Drupal::service('path.matcher')->isFrontPage()) {
         $variables['test'] = "test";
@@ -47,10 +53,6 @@ function material_khphotography_preprocess_page(array &$variables) {
         // example: {"vid":"photosets","tid":[]}
         if (isset($contentToDisplay->tid)) {
             // display the term 
-            
-            
-            
-            
         } else {
             if (isset($contentToDisplay->vid)) {
                 // display all of terms in vocabulary
@@ -60,37 +62,36 @@ function material_khphotography_preprocess_page(array &$variables) {
 
                 foreach ($terms as $term) {
                     // get primary photo for each photoset
-                    
                     // query flickr album
                     $nodePhotosetIDs = \Drupal::entityQuery('node')
-                                        ->condition('type', 'flickr_album')
-                                        ->condition('field_term_id', $term->id())
-                                        ->execute();
-                    
-                    foreach($nodePhotosetIDs as $npsid) {
-                        
+                            ->condition('type', 'flickr_album')
+                            ->condition('field_term_id', $term->id())
+                            ->execute();
+
+                    $photosetID = -1;
+                    foreach ($nodePhotosetIDs as $npsid) {
+                        $photosetID = $npsid;
                         // load each node flick_album
                         $nps = \Drupal::entityTypeManager()->getStorage('node')->load($npsid);
-                        
+
                         // load nodes- flick_photo
-                        $npids =   \Drupal::entityQuery('node')
-                                        ->condition('type', 'flickr_photo')
-                                        ->condition('field_photo_id', $nps->field_photo_id->value)
-                                        ->execute();
-                        
+                        $npids = \Drupal::entityQuery('node')
+                                ->condition('type', 'flickr_photo')
+                                ->condition('field_photo_id', $nps->field_photo_id->value)
+                                ->execute();
+
                         foreach ($npids as $nid => $value) {
                             $np = \Drupal::entityTypeManager()->getStorage('node')->load($value);
-                            $featured_photo = $np->field_photo_thumb_url->value;  
+                            $featured_photo = $np->field_photo_thumb_url->value;
                         }
-                        
                     }
-                    
+
                     // get node based on term id 
                     //$nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_tags' => $term->id()]);
                     //$node = array_pop($nodes);
-                  
+
                     $photoset = array();
-                    $photoset['tid'] = $term->id();
+                    $photoset['tid'] = $photosetID;
                     $photoset['name'] = $term->getName();
                     $photoset['feature_img'] = $featured_photo;
                     $photosets[$term->id()] = $photoset;
@@ -99,108 +100,125 @@ function material_khphotography_preprocess_page(array &$variables) {
             $variables['photosets'] = $photosets;
         }
     }
+}
 
-    /**
-     * Implements hook_theme_suggestions_page_alter().
-     */
-    function material_khphotography_theme_suggestions_page_alter(array &$suggestions, array $variables) {
-        
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ */
+function material_khphotography_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+    /* print_log(material_khphotography_theme_suggestions_page_alter);
+      print_log(\Drupal::routeMatch()->getRouteName());
+      if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.photoset' && $tid = \Drupal::routeMatch()->getRawParameter('taxonomy_term')
+      ) {
+      $term = Term::load($tid);
+      $suggestions[] = 'page__taxonomy__' . $term->getVocabularyId();
+      } */
+}
+
+/**
+ * Implements hook_theme_suggestions_node_alter().
+ */
+function material_khphotography_theme_suggestions_node_alter(array &$suggestions, array $variables) {
+    /* print_log(material_khphotography_theme_suggestions_node_alter);
+      $node = $variables['elements']['#node'];
+      print_log($node->getType());
+      if ($variables['elements']['#view_mode'] == "full") {
+
+      } */
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for Block document templates.
+ */
+function material_khphotography_preprocess_block(array &$variables) {
+    
+}
+
+/**
+ * Implements hook_theme_suggestions_field_alter().
+ */
+function material_khphotography_theme_suggestions_field_alter(array &$suggestions, array $variables) {
+    /* $element = $variables['element'];
+      $suggestions[] = 'field__' . $element['#view_mode'];
+      $suggestions[] = 'field__' . $element['#view_mode'] . '__' . $element['#field_name']; */
+}
+
+/**
+ * Implements hook_theme_suggestions_field_alter().
+ */
+function material_khphotography_theme_suggestions_fieldset_alter(array &$suggestions, array $variables) {
+    /* $element = $variables['element'];
+      if (isset($element['#attributes']['class']) && in_array('form-composite', $element['#attributes']['class'])) {
+      $suggestions[] = 'fieldset__form_composite';
+      } */
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function material_khphotography_preprocess_node(array &$variables) {
+    print_log(material_khphotography_preprocess_node);
+    $node = $variables['elements']['#node'];
+
+    // query to get term from tid
+    //$term = \Drupal\taxonomy\Entity\Term::load($node->field_term_id->value);
+    if ($node->getType() === 'flickr_album') {
+        $photoNodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_tags' => $node->field_term_id->value]);
+        $variables['photos'] = $photoNodes;
+    }else if ($node->getType() === 'flickr_photo') {
+        $variables['photo'] = $node;
+        $variables['photographer'] = array_pop(\Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_user_id' => $node->field_owner->value]));
+        print_log($variables['photographer']);
     }
+}
 
-    /**
-     * Implements hook_theme_suggestions_node_alter().
-     */
-    function material_khphotography_theme_suggestions_node_alter(array &$suggestions, array $variables) {
-        /* $node = $variables['elements']['#node'];
+/**
+ * Implements hook_theme_suggestions_views_view_alter().
+ */
+function material_khphotography_theme_suggestions_views_view_alter(array &$suggestions, array $variables) {
+    
+}
 
-          if ($variables['elements']['#view_mode'] == "full") {
+/**
+ * Implements hook_preprocess_form().
+ */
+function material_khphotography_preprocess_form(array &$variables) {
+    //$variables['attributes']['novalidate'] = 'novalidate';
+}
 
-          } */
-    }
+/**
+ * Implements hook_preprocess_select().
+ */
+function material_khphotography_preprocess_select(array &$variables) {
+    //$variables['attributes']['class'][] = 'select-chosen';
+}
 
-    /**
-     * Implements hook_preprocess_HOOK() for Block document templates.
-     */
-    function material_khphotography_preprocess_block(array &$variables) {
-        
-    }
+/**
+ * Implements hook_preprocess_field().
+ */
+function material_khphotography_preprocess_field(array &$variables, $hook) {
+    /* switch ($variables['element']['#field_name']) {
+      } */
+}
 
-    /**
-     * Implements hook_theme_suggestions_field_alter().
-     */
-    function material_khphotography_theme_suggestions_field_alter(array &$suggestions, array $variables) {
-        /* $element = $variables['element'];
-          $suggestions[] = 'field__' . $element['#view_mode'];
-          $suggestions[] = 'field__' . $element['#view_mode'] . '__' . $element['#field_name']; */
-    }
+/**
+ * Implements hook_preprocess_details().
+ */
+function material_khphotography_preprocess_details(array &$variables) {
+    /* $variables['attributes']['class'][] = 'details';
+      $variables['summary_attributes']['class'] = 'summary'; */
+}
 
-    /**
-     * Implements hook_theme_suggestions_field_alter().
-     */
-    function material_khphotography_theme_suggestions_fieldset_alter(array &$suggestions, array $variables) {
-        /* $element = $variables['element'];
-          if (isset($element['#attributes']['class']) && in_array('form-composite', $element['#attributes']['class'])) {
-          $suggestions[] = 'fieldset__form_composite';
-          } */
-    }
+/**
+ * Implements hook_theme_suggestions_details_alter().
+ */
+function material_khphotography_theme_suggestions_details_alter(array &$suggestions, array $variables) {
+    
+}
 
-    /**
-     * Implements hook_preprocess_node().
-     */
-    function material_khphotography_preprocess_node(array &$variables) {
-        // Default to turning off byline/submitted.
-        //$variables['display_submitted'] = FALSE;
-    }
-
-    /**
-     * Implements hook_theme_suggestions_views_view_alter().
-     */
-    function material_khphotography_theme_suggestions_views_view_alter(array &$suggestions, array $variables) {
-        
-    }
-
-    /**
-     * Implements hook_preprocess_form().
-     */
-    function material_khphotography_preprocess_form(array &$variables) {
-        //$variables['attributes']['novalidate'] = 'novalidate';
-    }
-
-    /**
-     * Implements hook_preprocess_select().
-     */
-    function material_khphotography_preprocess_select(array &$variables) {
-        //$variables['attributes']['class'][] = 'select-chosen';
-    }
-
-    /**
-     * Implements hook_preprocess_field().
-     */
-    function material_khphotography_preprocess_field(array &$variables, $hook) {
-        /* switch ($variables['element']['#field_name']) {
-          } */
-    }
-
-    /**
-     * Implements hook_preprocess_details().
-     */
-    function material_khphotography_preprocess_details(array &$variables) {
-        /* $variables['attributes']['class'][] = 'details';
-          $variables['summary_attributes']['class'] = 'summary'; */
-    }
-
-    /**
-     * Implements hook_theme_suggestions_details_alter().
-     */
-    function material_khphotography_theme_suggestions_details_alter(array &$suggestions, array $variables) {
-        
-    }
-
-    /**
-     * Implements hook_preprocess_menu_local_task().
-     */
-    function material_khphotography_preprocess_menu_local_task(array &$variables) {
-        //$variables['element']['#link']['url']->setOption('attributes', ['class'=>'rounded']);
-    }
-
+/**
+ * Implements hook_preprocess_menu_local_task().
+ */
+function material_khphotography_preprocess_menu_local_task(array &$variables) {
+    //$variables['element']['#link']['url']->setOption('attributes', ['class'=>'rounded']);
 }

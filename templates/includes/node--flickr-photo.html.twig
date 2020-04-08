@@ -1,1 +1,15 @@
-content of flickr photos
+<div class="card card-bg-primary">
+    <div class="card-item card-media">
+        <img class="img-responsive" src="{{ photo.field_photo_big_url.value }}">
+        <h3 class="title pull-bottom">{{ photo.title.value }}</h3>
+    </div>
+    <div class="card-item card-text">
+        <p>By: {{ photographer.field_username.value }}</p>
+        <p class="subtitle">{{ photo.field_date_taken.value }}</p>
+        <p>{{ photo.field_photo_description.value }}</p>
+
+    </div>
+    <div class="card-item card-actions divider-top">
+        <a class="btn" href="https://www.flickr.com/photos/{{ photo.field_owner.value }}/{{ photo.field_photo_id.value }}/">View in Flickr</a>
+    </div>
+</div>

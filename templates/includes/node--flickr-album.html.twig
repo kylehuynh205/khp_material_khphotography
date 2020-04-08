@@ -1,2 +1,10 @@
-{# empty Twig template #}
-overrwite 
+<div id="aniimated-thumbnials" class="list-unstyled row clearfix">
+    {% for nid,photo in photos %}
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <a href="{{ photo.field_photo_big_url.value }}" data-sub-html="{{ photo.title.value }}">
+                <img class="img-responsive thumbnail" src="{{ photo.field_photo_thumb_url.value }}">
+            </a>
+        </div>
+
+    {% endfor %}
+</div>

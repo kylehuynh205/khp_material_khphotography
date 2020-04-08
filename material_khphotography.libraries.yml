@@ -2,3 +2,20 @@ global-styling:
   css:
     theme:
       css/style_khphotography.css: {}
+  js: 
+      js/script_khphotography.js: {}
+      
+plugins:
+    js:
+        plugins/jquery-slimscroll/jquery.slimscroll.js: {}
+        plugins/node-waves/waves.js: {}
+        plugins/light-gallery/js/lightgallery-all.js: {}
+    css:
+      theme: 
+        plugins/node-waves/waves.css: {}
+        plugins/animate-css/animate.css: {}
+        plugins/light-gallery/css/lightgallery.css: {}
+   
+        
+        
+        

@@ -5,6 +5,7 @@ package: Kyle Huynh Photography
 core: 8.x
 libraries:
   - material_khphotography/global-styling
+  - material_khphotography/plugins
  
 base theme: material_base
 
