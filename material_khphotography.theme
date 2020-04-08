@@ -48,11 +48,43 @@ function material_khphotography_preprocess_page(array &$variables) {
     if (\Drupal::service('path.matcher')->isFrontPage()) {
         $variables['test'] = "test";
         $contentToDisplay = json_decode($variables['node']->body->value);
+        print_log($contentToDisplay);
         $photosets = array();
 
-        // example: {"vid":"photosets","tid":[]}
+        // example: {"vid":"photosets","tid":[]}  {"vid":"photoset","tid":["1053","1015"]}
+        //print_log(json_encode(array('vid' => 'photoset', 'tid' => array('1053', '1015'))));
         if (isset($contentToDisplay->tid)) {
+
             // display the term 
+            foreach ($contentToDisplay->tid as $tid) {
+
+                $nodePhotoset = \Drupal::entityQuery('node')
+                        ->condition('type', 'flickr_album')
+                        ->condition('nid', $tid)
+                        ->execute();
+
+                foreach ($nodePhotoset as $npsid) {
+
+                    // load each node flick_album
+                    $nps = \Drupal::entityTypeManager()->getStorage('node')->load($npsid);
+
+                    // load nodes- flick_photo
+                    $npids = \Drupal::entityQuery('node')
+                            ->condition('type', 'flickr_photo')
+                            ->condition('field_photo_id', $nps->field_photo_id->value)
+                            ->execute();
+
+                    foreach ($npids as $nid => $value) {
+                        $np = \Drupal::entityTypeManager()->getStorage('node')->load($value);
+                        $featured_photo = $np->field_photo_thumb_url->value;
+                    }
+                    $photoset = array();
+                    $photoset['tid'] = $nps->id();
+                    $photoset['name'] = $nps->title->value;
+                    $photoset['feature_img'] = $featured_photo;
+                    $photosets[$tid] = $photoset;
+                }
+            }
         } else {
             if (isset($contentToDisplay->vid)) {
                 // display all of terms in vocabulary
@@ -97,8 +129,8 @@ function material_khphotography_preprocess_page(array &$variables) {
                     $photosets[$term->id()] = $photoset;
                 }
             }
-            $variables['photosets'] = $photosets;
         }
+        $variables['photosets'] = $photosets;
     }
 }
 
@@ -165,7 +197,7 @@ function material_khphotography_preprocess_node(array &$variables) {
     if ($node->getType() === 'flickr_album') {
         $photoNodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_tags' => $node->field_term_id->value]);
         $variables['photos'] = $photoNodes;
-    }else if ($node->getType() === 'flickr_photo') {
+    } else if ($node->getType() === 'flickr_photo') {
         $variables['photo'] = $node;
         $variables['photographer'] = array_pop(\Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_user_id' => $node->field_owner->value]));
         print_log($variables['photographer']);
