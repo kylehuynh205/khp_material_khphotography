@@ -3,6 +3,7 @@
         $('#aniimated-thumbnials').lightGallery({
             thumbnail: true,
             selector: 'a'
-        });
+        }).justifiedGallery();
+        
     });
 }(window, jQuery));

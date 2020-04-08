@@ -10,11 +10,13 @@ plugins:
         plugins/jquery-slimscroll/jquery.slimscroll.js: {}
         plugins/node-waves/waves.js: {}
         plugins/light-gallery/js/lightgallery-all.js: {}
+        plugins/justifiedGallery/jquery.justifiedGallery.min.js: {}
     css:
       theme: 
         plugins/node-waves/waves.css: {}
         plugins/animate-css/animate.css: {}
         plugins/light-gallery/css/lightgallery.css: {}
+        plugins/justifiedGallery/justifiedGallery.min.css: {}
    
         
         
