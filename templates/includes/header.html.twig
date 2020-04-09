@@ -1,20 +1,21 @@
 <div id="navbar">
 
     <div id="navbar" >
-        <div class="navbar-item ">
-            <div class="navbar-logo">
-                {{ page.navbar_logo }}
+        <div class="container">
+            <div class="navbar-item ">
+                <div class="navbar-logo">
+                    {{ page.navbar_logo }}
+                </div>
+            </div>
+            <div class="navbar-item ">
+                <div class="navbar-title">
+                    {{ page.navbar_branding}}
+                </div>
+            </div>
+            <div class="navbar-item navbar-menu pull-right">
+                {{ page.navbar_navigation}}
             </div>
         </div>
-        <div class="navbar-item ">
-            <div class="navbar-title">
-                {{ page.navbar_branding}}
-            </div>
-        </div>
-        <div class="navbar-item navbar-menu pull-center">
-            {{ page.navbar_navigation}}
-        </div>
-
     </div>
 </div>
 <div id="drawer-overlay"></div>

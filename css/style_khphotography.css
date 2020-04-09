@@ -27,28 +27,47 @@ and open the template in the editor.
 }
 
 .thumbnail{
-  display: block;
-  padding: 4px;
-  margin-bottom: 20px;
-  line-height: 1.42857143;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  -webkit-transition: border .2s ease-in-out;
-  -o-transition: border .2s ease-in-out;
-  transition: border .2s ease-in-out;
+    display: block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
 }
 .thumbnail > img,
 .thumbnail a > img {
-  margin-right: auto;
-  margin-left: auto;
+    margin-right: auto;
+    margin-left: auto;
 }
 a.thumbnail:hover,
 a.thumbnail:focus,
 a.thumbnail.active {
-  border-color: #337ab7;
+    border-color: #337ab7;
 }
 .thumbnail .caption {
-  padding: 9px;
-  color: #333;
+    padding: 9px;
+    color: #333;
+}
+.navbar-logo a {
+    padding:0;
+}
+.navbar-logo a img, .navbar-logo a span {
+    border-radius: 50%;
+    height:100px
+}
+#header-bg { 
+    opacity:0.65 !important;
+}
+.header-bg-object #header {
+    background: #333333;
+}
+.header-bg-object.navbar-fixed #navbar.navbar-bg {
+    background: #333333;
+}
+.header-bg-object.navbar-fixed .node-template #navbar {
+    background: #333333;
 }

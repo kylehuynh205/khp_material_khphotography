@@ -1,17 +1,13 @@
 {# empty Twig template #}
-<div id="page" class="layout-container">
+<div id="page" class="layout-container node-template">
     {% include '@material_khphotography/includes/header.html.twig' %}
-
-
-    {#include '@material_khphotography/includes/content.html.twig' #}
-
 
     {% if page.actions %}
         <div id="actions">
             {{ page.actions }}
         </div>
     {% endif %}
-    <div id="content" style="margin-top:80px">
+    <div id="content" style="margin-top:100px">
         {% if page.before_main %}
             <div id="before-main">
                 {{ page.before_main }}

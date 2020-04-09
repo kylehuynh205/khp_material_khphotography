@@ -9,7 +9,7 @@
  * Implements hook_preprocess_HOOK() for html.html.twig.
  */
 function material_khphotography_preprocess_html(array &$variables) {
-    print_log(material_khphotography_preprocess_html);
+    //print_log(material_khphotography_preprocess_html);
 
     /* Add class to html tag */
     //$variables['html_attributes']->addClass('no-js');
@@ -36,43 +36,24 @@ function material_khphotography_page_attachments_alter(array &$page) {
 }
 
 function material_preprocess_taxonomy_vocabulary(array &$variables) {
-    print_log(material_preprocess_taxonomy_term);
+    //print_log(material_preprocess_taxonomy_term);
 }
 
 /**
  * Implements hook_preprocess_page() for page.html.twig.
  */
 function material_khphotography_preprocess_page(array &$variables) {
-    if (\Drupal::service('path.matcher')->isFrontPage()) {
-        $index = isset($_GET['page']) ? $_GET['page'] : 0;
-        
-        $total = count(\Drupal::entityQuery('node')
-                ->condition('type', 'flickr_photo')->execute());
-        
-        $nids = \Drupal::entityQuery('node')
-                ->condition('type', 'flickr_photo')
-                ->pager('100')
-                ->execute();
-        $photos = array();
-        $count = 0;
-        foreach ($nids as $nid) {
-            $photo = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
-            $photos[$nid] = $photo;
-            $count++;
-        }
-        $variables['photos'] = $photos;
-        $variables['index'] = $index;
-        $variables['count'] = $total/100;
-        $variables['currentURL'] = getNodeAlias();
-    }
+    //print_log(material_khphotography_preprocess_page);
+    $variables['site_title'] = \Drupal::config('system.site')->get('name');
+    $variables['slogan'] = \Drupal::config('system.site')->get('slogan');
 }
 
 /**
  * Implements hook_theme_suggestions_page_alter().
  */
 function material_khphotography_theme_suggestions_page_alter(array &$suggestions, array $variables) {
-    /* print_log(material_khphotography_theme_suggestions_page_alter);
-      print_log(\Drupal::routeMatch()->getRouteName());
+    /* //print_log(material_khphotography_theme_suggestions_page_alter);
+      //print_log(\Drupal::routeMatch()->getRouteName());
       if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.photoset' && $tid = \Drupal::routeMatch()->getRawParameter('taxonomy_term')
       ) {
       $term = Term::load($tid);
@@ -84,9 +65,9 @@ function material_khphotography_theme_suggestions_page_alter(array &$suggestions
  * Implements hook_theme_suggestions_node_alter().
  */
 function material_khphotography_theme_suggestions_node_alter(array &$suggestions, array $variables) {
-    /* print_log(material_khphotography_theme_suggestions_node_alter);
+    /* //print_log(material_khphotography_theme_suggestions_node_alter);
       $node = $variables['elements']['#node'];
-      print_log($node->getType());
+      //print_log($node->getType());
       if ($variables['elements']['#view_mode'] == "full") {
 
       } */
@@ -122,7 +103,7 @@ function material_khphotography_theme_suggestions_fieldset_alter(array &$suggest
  * Implements hook_preprocess_node().
  */
 function material_khphotography_preprocess_node(array &$variables) {
-    print_log(material_khphotography_preprocess_node);
+    //print_log(material_khphotography_preprocess_node);
     $node = $variables['elements']['#node'];
 
     // query to get term from tid
@@ -133,7 +114,6 @@ function material_khphotography_preprocess_node(array &$variables) {
     } else if ($node->getType() === 'flickr_photo') {
         $variables['photo'] = $node;
         $variables['photographer'] = array_pop(\Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_user_id' => $node->field_owner->value]));
-        print_log($variables['photographer']);
     }
 }
 
@@ -198,11 +178,11 @@ function preprocess_allphotosets(&$variables) {
     if (getNodeAlias() === '/all-photo-sets') {
         $variables['test'] = "test";
         $contentToDisplay = json_decode($variables['node']->body->value);
-        print_log($contentToDisplay);
+        //print_log($contentToDisplay);
         $photosets = array();
 
         // example: {"vid":"photosets","tid":[]}  {"vid":"photoset","tid":["1053","1015"]}
-        //print_log(json_encode(array('vid' => 'photoset', 'tid' => array('1053', '1015'))));
+        ////print_log(json_encode(array('vid' => 'photoset', 'tid' => array('1053', '1015'))));
         if (isset($contentToDisplay->tid)) {
 
             // display the term 
@@ -281,5 +261,35 @@ function preprocess_allphotosets(&$variables) {
             }
         }
         $variables['photosets'] = $photosets;
+    }
+}
+
+/**
+ * Preprocess
+ */
+function preprocessess_photosream(&$variables) {
+    if (\Drupal::service('path.matcher')->isFrontPage()) {
+
+        $index = isset($_GET['page']) ? $_GET['page'] : 1;
+
+        $total = count(\Drupal::entityQuery('node')
+                        ->condition('type', 'flickr_photo')->execute());
+        $nids = \Drupal::entityQuery('node')
+                ->condition('type', 'flickr_photo')
+                ->pager('100')
+                ->execute();
+        $photos = array();
+        $count = 1;
+        foreach ($nids as $nid) {
+            $photo = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+            $photos[$nid] = $photo;
+            $count++;
+        }
+        $variables['photos'] = $photos;
+        $variables['index'] = $index;
+        $variables['count'] = $total / 100;
+        $variables['currentURL'] = getNodeAlias();
+        $variables['site_title'] = \Drupal::config('system.site')->get('name');
+        $variables['slogan'] = \Drupal::config('system.site')->get('slogan');
     }
 }
