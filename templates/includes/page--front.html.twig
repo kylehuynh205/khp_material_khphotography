@@ -45,20 +45,10 @@
                     {{ page.help }}
 
                     <div class="layout-content">
-                        <div class="row card-grid">
-
-                                {% for tid,photoset in photosets %}
-                                    <div class="col-xs-12 col-sm-6 col-md-3 card-wrapper">
-                                        <div class="card">
-                                            <div class="card-item card-media">
-                                                <a href="/node/{{ photoset.tid|e }}"><img src="{{ photoset.feature_img }}"></a>
-                                                <h3 class="title pull-bottom"><a href="/node/{{ photoset.tid|e }}">{{ photoset.name }}</a></h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                        </div>
+                        {{ page.content }}
                     </div>{# /.layout-content #}
+
+
 
                 </div>{# /.card-holder #}
 
@@ -75,11 +65,40 @@
 
         </main>{# /#main #}
 
-        {% if page.after_main %}
-            <div id="after-main">
-                {{ page.after_main }}
+        <div id="after-main">
+            <div id="justifiied-photostream" class="list-unstyled justified-gallery row clearfix" style="height: auto;">
+                {% for nid,photo in photos %}
+                    <div>
+                        <a href="{{ photo.field_photo_big_url.value }}" data-sub-html="#caption-{{ photo.id }}">
+                            <img class="img-responsive thumbnail" src="{{ photo.field_photo_thumb_url.value }}">
+                        </a>
+                        <div id="caption-{{ photo.id }}" style="display:none">
+                            <h4>{{ photo.title.value }}</h4><p>{{ photo.field_photo_description.value }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% endif %}
+            <div class="pager">
+                <ul class="pager-items">
+                    <li class="pager-item item-first"><a href="{{ currentURL }}"><span>‹‹</span></a></li>
+                    <li class="pager-item item-previous"><a href="{{ currentURL }}?page={{ index-1 }}"><span>‹</span></a></li>
+                        {% for i in index..count %}
+                            {% if i == index %}
+                                <li class="pager-item item-current"><a href="{{ currentURL }}?page={{ i }}">{{ i+1 }}</a></li>
+                            {% else %}
+                                <li class="pager-item"><a href="{{ currentURL }}?page={{ i }}">{{ i+1 }}</a></li>
+                            {% endif %}
+                        
+                        {% endfor %}
+                    <li class="pager-item item-ellipsis"><span><span>…</span></span></li>
+                    <li class="pager-item item-next"><a href="{{ currentURL }}?page={{ index+1 }}"><span>›</span></a></li>
+                    <li class="pager-item item-last"><a href="{{ currentURL }}?page={{ count }}"><span>››</span></a></li>
+
+                </ul>
+            </div> 
+
+
+        </div>
 
     </div>{# /.content #}
 

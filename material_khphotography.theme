@@ -43,94 +43,27 @@ function material_preprocess_taxonomy_vocabulary(array &$variables) {
  * Implements hook_preprocess_page() for page.html.twig.
  */
 function material_khphotography_preprocess_page(array &$variables) {
-    print_log(material_khphotography_preprocess_page);
-
     if (\Drupal::service('path.matcher')->isFrontPage()) {
-        $variables['test'] = "test";
-        $contentToDisplay = json_decode($variables['node']->body->value);
-        print_log($contentToDisplay);
-        $photosets = array();
-
-        // example: {"vid":"photosets","tid":[]}  {"vid":"photoset","tid":["1053","1015"]}
-        //print_log(json_encode(array('vid' => 'photoset', 'tid' => array('1053', '1015'))));
-        if (isset($contentToDisplay->tid)) {
-
-            // display the term 
-            foreach ($contentToDisplay->tid as $tid) {
-
-                $nodePhotoset = \Drupal::entityQuery('node')
-                        ->condition('type', 'flickr_album')
-                        ->condition('nid', $tid)
-                        ->execute();
-
-                foreach ($nodePhotoset as $npsid) {
-
-                    // load each node flick_album
-                    $nps = \Drupal::entityTypeManager()->getStorage('node')->load($npsid);
-
-                    // load nodes- flick_photo
-                    $npids = \Drupal::entityQuery('node')
-                            ->condition('type', 'flickr_photo')
-                            ->condition('field_photo_id', $nps->field_photo_id->value)
-                            ->execute();
-
-                    foreach ($npids as $nid => $value) {
-                        $np = \Drupal::entityTypeManager()->getStorage('node')->load($value);
-                        $featured_photo = $np->field_photo_thumb_url->value;
-                    }
-                    $photoset = array();
-                    $photoset['tid'] = $nps->id();
-                    $photoset['name'] = $nps->title->value;
-                    $photoset['feature_img'] = $featured_photo;
-                    $photosets[$tid] = $photoset;
-                }
-            }
-        } else {
-            if (isset($contentToDisplay->vid)) {
-                // display all of terms in vocabulary
-                $vocabulary = \Drupal\flickr\Classes\Utils::createVocabulary("photosets", "Photo Sets", "Album");
-                $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vocabulary, 0, NULL, TRUE);
-
-
-                foreach ($terms as $term) {
-                    // get primary photo for each photoset
-                    // query flickr album
-                    $nodePhotosetIDs = \Drupal::entityQuery('node')
-                            ->condition('type', 'flickr_album')
-                            ->condition('field_term_id', $term->id())
-                            ->execute();
-
-                    $photosetID = -1;
-                    foreach ($nodePhotosetIDs as $npsid) {
-                        $photosetID = $npsid;
-                        // load each node flick_album
-                        $nps = \Drupal::entityTypeManager()->getStorage('node')->load($npsid);
-
-                        // load nodes- flick_photo
-                        $npids = \Drupal::entityQuery('node')
-                                ->condition('type', 'flickr_photo')
-                                ->condition('field_photo_id', $nps->field_photo_id->value)
-                                ->execute();
-
-                        foreach ($npids as $nid => $value) {
-                            $np = \Drupal::entityTypeManager()->getStorage('node')->load($value);
-                            $featured_photo = $np->field_photo_thumb_url->value;
-                        }
-                    }
-
-                    // get node based on term id 
-                    //$nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_tags' => $term->id()]);
-                    //$node = array_pop($nodes);
-
-                    $photoset = array();
-                    $photoset['tid'] = $photosetID;
-                    $photoset['name'] = $term->getName();
-                    $photoset['feature_img'] = $featured_photo;
-                    $photosets[$term->id()] = $photoset;
-                }
-            }
+        $index = isset($_GET['page']) ? $_GET['page'] : 0;
+        
+        $total = count(\Drupal::entityQuery('node')
+                ->condition('type', 'flickr_photo')->execute());
+        
+        $nids = \Drupal::entityQuery('node')
+                ->condition('type', 'flickr_photo')
+                ->pager('100')
+                ->execute();
+        $photos = array();
+        $count = 0;
+        foreach ($nids as $nid) {
+            $photo = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+            $photos[$nid] = $photo;
+            $count++;
         }
-        $variables['photosets'] = $photosets;
+        $variables['photos'] = $photos;
+        $variables['index'] = $index;
+        $variables['count'] = $total/100;
+        $variables['currentURL'] = getNodeAlias();
     }
 }
 
@@ -253,4 +186,100 @@ function material_khphotography_theme_suggestions_details_alter(array &$suggesti
  */
 function material_khphotography_preprocess_menu_local_task(array &$variables) {
     //$variables['element']['#link']['url']->setOption('attributes', ['class'=>'rounded']);
+}
+
+function getNodeAlias() {
+    $current_path = \Drupal::service('path.current')->getPath();
+    $result = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
+    return $result;
+}
+
+function preprocess_allphotosets(&$variables) {
+    if (getNodeAlias() === '/all-photo-sets') {
+        $variables['test'] = "test";
+        $contentToDisplay = json_decode($variables['node']->body->value);
+        print_log($contentToDisplay);
+        $photosets = array();
+
+        // example: {"vid":"photosets","tid":[]}  {"vid":"photoset","tid":["1053","1015"]}
+        //print_log(json_encode(array('vid' => 'photoset', 'tid' => array('1053', '1015'))));
+        if (isset($contentToDisplay->tid)) {
+
+            // display the term 
+            foreach ($contentToDisplay->tid as $tid) {
+
+                $nodePhotoset = \Drupal::entityQuery('node')
+                        ->condition('type', 'flickr_album')
+                        ->condition('nid', $tid)
+                        ->execute();
+
+                foreach ($nodePhotoset as $npsid) {
+
+                    // load each node flick_album
+                    $nps = \Drupal::entityTypeManager()->getStorage('node')->load($npsid);
+
+                    // load nodes- flick_photo
+                    $npids = \Drupal::entityQuery('node')
+                            ->condition('type', 'flickr_photo')
+                            ->condition('field_photo_id', $nps->field_photo_id->value)
+                            ->execute();
+
+                    foreach ($npids as $nid => $value) {
+                        $np = \Drupal::entityTypeManager()->getStorage('node')->load($value);
+                        $featured_photo = $np->field_photo_thumb_url->value;
+                    }
+                    $photoset = array();
+                    $photoset['tid'] = $nps->id();
+                    $photoset['name'] = $nps->title->value;
+                    $photoset['feature_img'] = $featured_photo;
+                    $photosets[$tid] = $photoset;
+                }
+            }
+        } else {
+            if (isset($contentToDisplay->vid)) {
+                // display all of terms in vocabulary
+                $vocabulary = \Drupal\flickr\Classes\Utils::createVocabulary("photosets", "Photo Sets", "Album");
+                $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vocabulary, 0, NULL, TRUE);
+
+
+                foreach ($terms as $term) {
+                    // get primary photo for each photoset
+                    // query flickr album
+                    $nodePhotosetIDs = \Drupal::entityQuery('node')
+                            ->condition('type', 'flickr_album')
+                            ->condition('field_term_id', $term->id())
+                            ->execute();
+
+                    $photosetID = -1;
+                    foreach ($nodePhotosetIDs as $npsid) {
+                        $photosetID = $npsid;
+                        // load each node flick_album
+                        $nps = \Drupal::entityTypeManager()->getStorage('node')->load($npsid);
+
+                        // load nodes- flick_photo
+                        $npids = \Drupal::entityQuery('node')
+                                ->condition('type', 'flickr_photo')
+                                ->condition('field_photo_id', $nps->field_photo_id->value)
+                                ->execute();
+
+                        foreach ($npids as $nid => $value) {
+                            $np = \Drupal::entityTypeManager()->getStorage('node')->load($value);
+                            $featured_photo = $np->field_photo_thumb_url->value;
+                        }
+                    }
+
+                    // get node based on term id 
+                    //$nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_tags' => $term->id()]);
+                    //$node = array_pop($nodes);
+
+                    $photoset = array();
+                    $photoset['tid'] = $photosetID;
+                    $photoset['name'] = $term->getName();
+                    $photoset['feature_img'] = $featured_photo;
+                    $photosets[$term->id()] = $photoset;
+                }
+            }
+        }
+        $variables['photosets'] = $photosets;
+    }
 }

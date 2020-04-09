@@ -3,7 +3,16 @@
         $('#aniimated-thumbnials').lightGallery({
             thumbnail: true,
             selector: 'a'
-        }).justifiedGallery();
-        
+        }).justifiedGallery({
+            "rowHeight": 150
+        });
+
+        $('#justifiied-photostream').lightGallery({
+            thumbnail: true,
+            selector: 'a'
+        }).justifiedGallery({
+            "rowHeight": 150,
+        });
+
     });
 }(window, jQuery));
