@@ -77,7 +77,6 @@ function material_khphotography_theme_suggestions_node_alter(array &$suggestions
  * Implements hook_preprocess_HOOK() for Block document templates.
  */
 function material_khphotography_preprocess_block(array &$variables) {
-    
 }
 
 /**
