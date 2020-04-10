@@ -18,7 +18,9 @@ plugins:
         plugins/animate-css/animate.css: {}
         plugins/light-gallery/css/lightgallery.css: {}
         plugins/justifiedGallery/justifiedGallery.min.css: {}
+        plugins/fontawesome/css/all.css: {}
    
+        
         
         
         

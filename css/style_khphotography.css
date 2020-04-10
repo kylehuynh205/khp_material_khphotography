@@ -18,6 +18,21 @@ and open the template in the editor.
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,cyrillic");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+.animated-image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.justified-gallery .animated-image:hover {
+    transform: scale(1.2);
+    transition: transform .5s;
+}
+
 .container-fluid{
     margin-right:auto;
     margin-left:auto;
@@ -554,7 +569,7 @@ and open the template in the editor.
         order:1;
     }
 }
- .primary-red #header{
+.primary-red #header{
     background:#f44336;
     color:#FFF;
 }
@@ -4665,7 +4680,7 @@ and open the template in the editor.
 .accent-deep-orange.theme-dark .btn-raised.btn-accent:active,.accent-deep-orange.theme-dark .btn.btn-raised.btn-accent:active,.accent-deep-orange.theme-dark input.btn-raised[type="submit"].btn-accent:active{
     background:#ff855f;
 }
- .theme-dark{
+.theme-dark{
     color:#FFF;
     background:#303030;
 }
@@ -5063,7 +5078,7 @@ and open the template in the editor.
 .theme-dark .messages-error a:active{
     color:#ffa69f;
 }
- .material-icons,.icon-left:before,.icon-right:after{
+.material-icons,.icon-left:before,.icon-right:after{
     font-family:'Material Icons','Material Icons Local';
     font-weight:normal;
     font-style:normal;
@@ -5136,7 +5151,7 @@ and open the template in the editor.
 .theme-dark .icon-accent.icon-left:before,.theme-dark .icon-accent.icon-right:after{
     color:#40c4ff;
 }
- .services-icons{
+.services-icons{
     display:inline-block;
     width:24px;
     height:24px;
@@ -6466,7 +6481,7 @@ a.services-icon-right:not(.btn):active:after{
 .theme-dark .fab.services-icon-right.fab-accent:after,.theme-dark .fab.services-icon-right.fab-accent:hover:after,.theme-dark .fab.services-icon-right.fab-accent:focus:after{
     background:rgba(0,0,0,0.87);
 }
- .filetypes-icons{
+.filetypes-icons{
     display:inline-block;
     width:24px;
     height:24px;
@@ -6957,7 +6972,7 @@ a.filetypes-icon-right:not(.btn):active:after{
 .theme-dark .fab.filetypes-icon-right.fab-accent:after,.theme-dark .fab.filetypes-icon-right.fab-accent:hover:after,.theme-dark .fab.filetypes-icon-right.fab-accent:focus:after{
     background:rgba(0,0,0,0.87);
 }
- .pull-left,.align-left{
+.pull-left,.align-left{
     float:left;
 }
 .pull-center,.align-center{
@@ -7211,7 +7226,7 @@ a.filetypes-icon-right:not(.btn):active:after{
         display:inline-block;
     }
 }
- code[class*="language-"],pre[class*="language-"]{
+code[class*="language-"],pre[class*="language-"]{
     direction:ltr;
     text-align:left;
     white-space:pre;
@@ -7363,7 +7378,7 @@ pre.line-numbers > code{
 .theme-dark .card .code-card,.theme-dark.content-card .card-holder .code-card{
     border-color:#585858;
 }
- html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{
     margin:0;
     padding:0;
     border:0;
@@ -10189,14 +10204,14 @@ ul.messages-list{
 .js-comment mark.hidden{
     display:none;
 }
- @font-face{
+@font-face{
     font-family:'Material Icons Local';
     font-style:normal;
     font-weight:400;
     src:url(/themes/custom/material_base/fonts/MaterialIcons-Regular.eot);
     src:local("Material Icons"),local("MaterialIcons-Regular"),url(/themes/custom/material_base/fonts/MaterialIcons-Regular.woff2) format("woff2"),url(/themes/custom/material_base/fonts/MaterialIcons-Regular.woff) format("woff"),url(/themes/custom/material_base/fonts/MaterialIcons-Regular.ttf) format("truetype");
 }
- html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{
     margin:0;
     padding:0;
     border:0;
@@ -13298,12 +13313,12 @@ html,body,#page,#navbar{
 .d-logo.icon-secondary{
     opacity:.54;
 }
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
 .slogan-btn-1 { 
 
     position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
