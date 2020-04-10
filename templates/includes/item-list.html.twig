@@ -25,26 +25,34 @@
 
 
 {% if context.list_style %}
-  {%- set attributes = attributes.addClass('item-list__' ~ context.list_style) %}
+    {%- set attributes = attributes.addClass('item-list__' ~ context.list_style) %}
 {% endif %}
 {%
   set classes = [
-    'list-unstyled', 'justified-gallery', 'clearfix'
+    'list-unstyled', 'justified-gallery'
   ]
 %}
 {%- set attributes = attributes.addClass(classes) %}
 {% if items or empty %}
-  {%- if title is not empty -%}
-    <h3>{{ title }}</h3>
-  {%- endif -%}
+    {%- if title is not empty -%}
+        <h3>{{ title }}</h3>
+    {%- endif -%}
 
-  {%- if items -%}
-    <{{ list_type }} id="search-result-photostream" {{ attributes }} >
-      {%- for item in items -%}
-        <li{{ item.attributes }}>{{ item.value }}</li>
-      {%- endfor -%}
-    </{{ list_type }}>
-  {%- else -%}
-    {{- empty -}}
-  {%- endif -%}
+    {%- if items -%}
+
+        <div id="search-result-photostream" class="list-unstyled justified-gallery row clearfix" style="height: auto;">
+
+            {%- for item in items -%}
+                <div>
+                    {{ item.value }}
+                </div>
+            {%- endfor -%}
+
+        </div>
+
+
+
+    {%- else -%}
+        {{- empty -}}
+    {%- endif -%}
 {%- endif %}

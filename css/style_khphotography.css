@@ -19,6 +19,10 @@ and open the template in the editor.
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,cyrillic");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+#block-searchform {
+    padding-left: 38% !important;
+}
+
 .animated-image {
     opacity: 1;
     display: block;

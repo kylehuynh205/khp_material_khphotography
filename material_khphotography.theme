@@ -62,12 +62,7 @@ function material_khphotography_theme_suggestions_page_alter(array &$suggestions
 }
 
 function material_khphotography_preprocess_search_result(&$variables){
-    print_log(array_keys($variables['result']));
-    print_log($variables['result']['title']);
-    print_log($variables['result']['link']);
-    
     $resultNode = $variables['result']['node'];
-    print_log($resultNode->getType());
     
     if ($resultNode->getType() === "flickr_photo") { 
         $variables['photo'] = $resultNode;
