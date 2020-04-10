@@ -13318,7 +13318,6 @@ html,body,#page,#navbar{
 
 .thumbnail{
     display: block;
-    padding: 4px;
     margin-bottom: 20px;
     line-height: 1.42857143;
     background-color: #fff;
@@ -13347,7 +13346,7 @@ a.thumbnail.active {
 }
 .navbar-logo a img, .navbar-logo a span {
     border-radius: 50%;
-    height:100px
+    height:100%
 }
 #header-bg { 
     opacity:0.65 !important;
