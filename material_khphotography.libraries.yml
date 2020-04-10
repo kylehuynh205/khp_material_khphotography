@@ -10,6 +10,7 @@ plugins:
         plugins/jquery-slimscroll/jquery.slimscroll.js: {}
         plugins/node-waves/waves.js: {}
         plugins/light-gallery/js/lightgallery-all.js: {}
+        plugins/lg-share/lg-share.min.js: {}
         plugins/justifiedGallery/jquery.justifiedGallery.min.js: {}
     css:
       theme: 

@@ -1,7 +1,15 @@
 <div id="aniimated-thumbnials" class="list-unstyled justified-gallery row clearfix" style="height: auto;">
     {% for nid,photo in photos %}
         <div>
-            <a href="{{ photo.field_photo_big_url.value }}" data-sub-html="#caption-{{ photo.id }}">
+            <!--<a href="{{ photo.field_photo_big_url.value }}" data-sub-html="#caption-{{ photo.id }}">
+                <img class="img-responsive thumbnail" src="{{ photo.field_photo_thumb_url.value }}">
+            </a>-->
+            <a data-pinterest-text="Pin it1" data-tweet-text="share on twitter 1" 
+               data-facebook-share-url="{{ photo.field_photopage_url.value }}" 
+               data-twitter-share-url="{{ photo.field_photopage_url.value }}" 
+               data-googleplus-share-url="{{ photo.field_photopage_url.value }}" 
+               data-pinterest-share-url="{{ photo.field_photopage_url.value }}" 
+               href="{{ photo.field_photo_big_url.value }}">
                 <img class="img-responsive thumbnail" src="{{ photo.field_photo_thumb_url.value }}">
             </a>
             <div id="caption-{{ photo.id }}" style="display:none">
