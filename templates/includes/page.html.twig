@@ -1,0 +1,55 @@
+{# empty Twig template #}
+<div id="page" class="layout-container node-template">
+    {% include '@material_khphotography/includes/header.html.twig' %}
+
+    {% if page.actions %}
+        <div id="actions">
+            {{ page.actions }}
+        </div>
+    {% endif %}
+    <div id="content" style="margin-top:100px">
+        {% if page.before_main %}
+            <div id="before-main">
+                {{ page.before_main }}
+            </div>
+        {% endif %}
+
+        <main role="main" id="main" class="container">
+            <div id="main-content" tabindex="-1">{# link is in html.html.twig #}
+
+                <div class="card-holder">
+                    {{ page.breadcrumb }}
+                    {{ page.highlighted }}
+                    {{ page.help }}
+
+                    <div class="layout-content">
+                        {{ page.content }}
+                    </div>{# /.layout-content #}
+
+                </div>{# /.card-holder #}
+
+                {% if page.content_secondary %}
+                    <div id="content-secondary">
+                        {{ page.content_secondary }}
+                    </div>
+                {% endif %}
+            </div>{# /#main-content #}
+
+            {% include '@material_khphotography/includes/sidebar_left.html.twig' %}
+            {% include '@material_khphotography/includes/sidebar_right.html.twig' %}
+
+
+        </main>{# /#main #}
+
+        {% if page.after_main %}
+            <div id="after-main">
+                {{ page.after_main }}
+            </div>
+        {% endif %}
+
+    </div>{# /.content #}
+
+
+    {% include '@material_khphotography/includes/footer.html.twig' %}
+
+</div>
