@@ -126,6 +126,10 @@ function material_khphotography_preprocess_node(array &$variables) {
         $variables['photo'] = $node;
         $variables['photographer'] = array_pop(\Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_user_id' => $node->field_owner->value]));
     }
+    else if ($node->getType() == 'flickr_user') { 
+        $variables['user'] = $node;
+        $variables['photos'] = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_owner' => $node->field_user_id->value]);
+    }
 }
 
 /**

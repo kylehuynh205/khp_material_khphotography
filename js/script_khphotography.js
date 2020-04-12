@@ -20,6 +20,12 @@
         }).justifiedGallery({
             "rowHeight": 150,
         });
+        $('#byuser-photostream').lightGallery({
+            thumbnail: true,
+            selector: 'a'
+        }).justifiedGallery({
+            "rowHeight": 150,
+        });
 
 
 
