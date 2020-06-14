@@ -30,36 +30,65 @@
             "rowHeight": 150,
         });
 
-        
-        $(window).scroll(function() {
-            if($(window).scrollTop() + $(window).height() == $(document).height()) {
-                var current =  parseInt($('#currently-loaded').val());
-              for (var i = current; i< current + 50; i++) {
-                
-                $('#justifiied-photostream').append(
-                '<div><a data-pinterest-text="Pin it'+$("#field_photoid-" + i).val()+'" data-tweet-text="share on twitter 1" data-facebook-share-url="'
-                    + $("#field_photopage_url-" + i).val() +
-                    '"  data-twitter-share-url="'
-                    + $("#field_photopage_url-" + i).val() +
-                    '" data-googleplus-share-url="'
-                    + $("#field_photopage_url-" + i).val() +
-                    '" data-pinterest-share-url="{{' +
-                    $("#field_photopage_url-" + i).val() +
-                    '" data-download-url="'
-                    + $("#field_photo_org_url-" + i).val() +
-                    '" data-sub-html="#caption-'
-                    + $("#field_photoid-" + i).val() + '" href="'
-                    + $("#field_photo_big_url-" + i).val() +
-                    '"><img class="img-responsive thumbnail animated-image" src="'
-                    + $("#field_photo_thumb_url-" + i).val() + '"></a><div id="caption-'
-                    + $("#field_photoid-" + i).val() + '" style="display:none"><h4>'
-                    + $("#field_phototitle-" + i).val() + '</h4><p>'
-                    + $("#field_photo_description-" + i).val() + '</p></div></div>'
-                    );
-              }
-              $('#currently-loaded').val(current + 50);
-              $('#justifiied-photostream').justifiedGallery('norewind');
+        $( "#gallery-reload" ).hide();
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                reloadGallery();
             }
+            if (parseInt($('#currently-loaded').val()) < parseInt($('#total-photos').val()) ) {
+                $( "#gallery-reload" ).show();
+            }
+            else {
+                $( "#gallery-reload" ).hide();
+            }
+        });
+
+        function reloadGallery(){
+            var current = parseInt($('#currently-loaded').val());
+                for (var i = current; i < current + 20; i++) {
+
+                    $('#justifiied-photostream').append(
+                            '<div><a data-pinterest-text="Pin it' + $("#field_photoid-" + i).val() + '" data-tweet-text="share on twitter 1" data-facebook-share-url="'
+                            + $("#field_photopage_url-" + i).val() +
+                            '"  data-twitter-share-url="'
+                            + $("#field_photopage_url-" + i).val() +
+                            '" data-googleplus-share-url="'
+                            + $("#field_photopage_url-" + i).val() +
+                            '" data-pinterest-share-url="' +
+                            $("#field_photopage_url-" + i).val() +
+                            '" data-download-url="'
+                            + $("#field_photo_org_url-" + i).val() +
+                            '" data-sub-html="#caption-'
+                            + $("#field_photoid-" + i).val() + '" href="'
+                            + $("#field_photo_big_url-" + i).val() +
+                            '"><img class="img-responsive thumbnail animated-image" src="'
+                            + $("#field_photo_thumb_url-" + i).val() + '"></a><div id="caption-'
+                            + $("#field_photoid-" + i).val() + '" style="display:none"><h4>'
+                            + $("#field_phototitle-" + i).val() + '</h4><p>'
+                            + $("#field_photo_description-" + i).val() + '</p></div></div>'
+                            );
+                }
+
+                $('#currently-loaded').val(current + 20);
+                $('#justifiied-photostream').justifiedGallery('norewind');
+
+                // reload light gallery
+                $('#justifiied-photostream').data('lightGallery').destroy(true);
+                $('#justifiied-photostream').lightGallery({
+                    thumbnail: true,
+                    selector: 'a'
+                });
+        }
+        
+        if (parseInt($('#currently-loaded').val()) < parseInt($('#total-photos').val()) ) {
+            $( "#gallery-reload" ).show();
+        }
+        else {
+            $( "#gallery-reload" ).hide();
+        }
+        
+        $( "#gallery-reload" ).click(function() {
+            reloadGallery();
           });
         
 
