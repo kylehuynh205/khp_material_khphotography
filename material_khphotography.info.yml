@@ -6,6 +6,7 @@ core: 8.x
 libraries:
   - material_khphotography/global-styling
   - material_khphotography/plugins
+  - flickr/font_awesome
  
 base theme: material_base
 

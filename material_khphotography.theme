@@ -120,8 +120,16 @@ function material_khphotography_preprocess_node(array &$variables) {
     // query to get term from tid
     //$term = \Drupal\taxonomy\Entity\Term::load($node->field_term_id->value);
     if ($node->getType() === 'flickr_album') {
-        $photoNodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_tags' => $node->field_term_id->value]);
+        $nids = \Drupal::entityQuery('node')
+                ->condition('type', 'flickr_photo')
+                ->condition('field_tags', $node->field_term_id->value)
+                ->sort('field_date_uploaded' , 'DESC')
+                ->pager('70')
+                ->execute();
+        
+        $photoNodes =  \Drupal\node\Entity\Node::loadMultiple($nids);
         $variables['photos'] = $photoNodes;
+        
     } else if ($node->getType() === 'flickr_photo') {
         $variables['photo'] = $node;
         $variables['photographer'] = array_pop(\Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['field_user_id' => $node->field_owner->value]));
