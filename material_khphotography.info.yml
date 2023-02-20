@@ -2,7 +2,7 @@ name: Kyle Huynh Photography
 type: theme
 description: 'This theme is used for Kyle Huynh Photography (photo.kylehuynh.com)'
 package: Kyle Huynh Photography
-core_version_requirement: '^8.8 || ^9'
+core_version_requirement: ^9 || ^10
 libraries:
   - material_khphotography/global-styling
   - material_khphotography/plugins
