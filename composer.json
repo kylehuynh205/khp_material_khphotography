@@ -1,0 +1,19 @@
+{
+    "name": "kylehuynh/material_khphotography",
+    "description": "Kyle Huynh Photography is derived theme from base theme inspirited by Material Design concept.",
+    "type": "drupal-theme",
+    "homepage": "https://www.drupal.org/project/material_base",
+    "authors": [
+        {
+            "name": "Kyle Huynh",
+            "homepage": "https://kylehuynh.com",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/kylehuynh205/khp_material_khphotography",
+        "source": "https://github.com/kylehuynh205/khp_material_khphotography"
+    },
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev"
+}
