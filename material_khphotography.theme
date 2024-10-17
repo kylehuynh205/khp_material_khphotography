@@ -121,6 +121,7 @@ function material_khphotography_preprocess_node(array &$variables) {
     //$term = \Drupal\taxonomy\Entity\Term::load($node->field_term_id->value);
     if ($node->getType() === 'flickr_album') {
         $nids = \Drupal::entityQuery('node')
+                ->accessCheck(TRUE)
                 ->condition('type', 'flickr_photo')
                 ->condition('field_tags', $node->field_term_id->value)
                 ->sort('field_date_uploaded' , 'DESC')
@@ -212,6 +213,7 @@ function preprocess_allphotosets(&$variables) {
             foreach ($contentToDisplay->tid as $tid) {
 
                 $nodePhotoset = \Drupal::entityQuery('node')
+                       ->accessCheck(TRUE)
                         ->condition('type', 'flickr_album')
                         ->condition('nid', $tid)
                         ->execute();
@@ -223,6 +225,7 @@ function preprocess_allphotosets(&$variables) {
 
                     // load nodes- flick_photo
                     $npids = \Drupal::entityQuery('node')
+                            ->accessCheck(TRUE)
                             ->condition('type', 'flickr_photo')
                             ->condition('field_photo_id', $nps->field_photo_id->value)
                             ->execute();
@@ -249,6 +252,7 @@ function preprocess_allphotosets(&$variables) {
                     // get primary photo for each photoset
                     // query flickr album
                     $nodePhotosetIDs = \Drupal::entityQuery('node')
+                            ->accessCheck(TRUE)
                             ->condition('type', 'flickr_album')
                             ->condition('field_term_id', $term->id())
                             ->execute();
@@ -261,6 +265,7 @@ function preprocess_allphotosets(&$variables) {
 
                         // load nodes- flick_photo
                         $npids = \Drupal::entityQuery('node')
+                                ->accessCheck(TRUE)
                                 ->condition('type', 'flickr_photo')
                                 ->condition('field_photo_id', $nps->field_photo_id->value)
                                 ->execute();
@@ -296,8 +301,10 @@ function preprocessess_photosream(&$variables) {
         $index = isset($_GET['page']) ? $_GET['page'] : 1;
 
         $total = count(\Drupal::entityQuery('node')
+                        ->accessCheck(TRUE)
                         ->condition('type', 'flickr_photo')->execute());
         $nids = \Drupal::entityQuery('node')
+                ->accessCheck(TRUE)
                 ->condition('type', 'flickr_photo')
                 ->pager('100')
                 ->execute();
