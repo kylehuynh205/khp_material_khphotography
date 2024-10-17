@@ -4,6 +4,8 @@ global-styling:
       css/style_khphotography.css: {}
   js: 
       js/script_khphotography.js: {}
+  dependencies:
+    - core/jquery
       
 plugins:
     js:
@@ -19,6 +21,8 @@ plugins:
         plugins/light-gallery/css/lightgallery.css: {}
         plugins/justifiedGallery/justifiedGallery.min.css: {}
         plugins/fontawesome/css/all.css: {}
+    dependencies:
+      - core/jquery
    
         
         
