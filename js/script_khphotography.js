@@ -1,4 +1,4 @@
-(function (window, $) {
+(function($) {
     $(function () {
         $('#search-result-photostream').lightGallery({
             thumbnail: true,
@@ -134,4 +134,4 @@
 
 
     });
-}(window, jQuery));
+})(jQuery);
